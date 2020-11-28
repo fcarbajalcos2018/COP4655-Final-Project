@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">Final Project</string>
     <string name="web_client_id">793732073220-7a6rk9gg4d5hp76ii5i7ldg2l4060cr8.apps.googleusercontent.com</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="search">Search</string>
+    <string name="information">Information</string>
+    <string name="map">Map</string>
+    <string name="my_list">My List</string>
 </resources>
