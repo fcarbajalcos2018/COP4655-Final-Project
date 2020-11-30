@@ -7,6 +7,23 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,6 +41,12 @@ public class MainFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    EditText searchIn;
+    Button searchOnClick;
+    TextView op1, op2, op3, op4;
+    RequestQueue queue;
+
+    String YELP_API = "Tg9MF-UGI9sChISM7-WDxCRPjStEnEY6Ijjqs-UWvzNfOB6T2FFeQNLOkLdUxPx00PKBV6rlZs97JyjU97XAsVYp2am4KGpONQJpVqIu8p36Iub7T1N3kdme2hPEX3Yx";
     public MainFragment() {
         // Required empty public constructor
     }
@@ -59,6 +82,46 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main, container, false);
+        View view = inflater.inflate(R.layout.fragment_main, container, false);
+        searchIn = (EditText) getView().findViewById(R.id.input);
+        searchOnClick = (Button) getView().findViewById(R.id.search);
+
+        searchIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getData();
+            }
+
+        });
+
+        return view;
+    }
+    private void getData() {
+        String in = searchIn.getText().toString();
+        queue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        String url = "https://api.yelp.com/v3/businesses/" + in;
+        JsonObjectRequest getLocation = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    String locationName = response.getString("name");
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getActivity().getApplicationContext(), "Unable to get the data.", Toast.LENGTH_SHORT);
+            }
+        }) {
+            //@Override
+            public Map<String, String> getHeader() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer " + YELP_API);
+                return params;
+            }
+        };
     }
 }
