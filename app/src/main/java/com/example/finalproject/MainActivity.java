@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (user != null)
         {
-            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
         }
     }
@@ -52,12 +52,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mAuth = FirebaseAuth.getInstance();
-
-        createRequest();
         microsoft = (Button)findViewById(R.id.microsoftlogin);
         google = (Button)findViewById(R.id.googlelogin);
         yahoo = (Button)findViewById(R.id.yahoologin);
+        mAuth = FirebaseAuth.getInstance();
+
+        createRequest();
 
         microsoft.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,6 +79,20 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void createRequest() {
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.web_client_id))
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+    }
+
+    private void GoogleLogin() {
+        Intent login = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(login, RC_SIGN_IN);
+    }
+
+    @Override
     public void onActivityResult(int getCode, int result, Intent data) {
         super.onActivityResult(getCode, result, data);
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
@@ -95,18 +109,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-    private void GoogleLogin() {
-        Intent login = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(login, RC_SIGN_IN);
-    }
-
-    private void createRequest() {
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.web_client_id))
-                .requestEmail()
-                .build();
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-    }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount myAccount) {
         AuthCredential credential = GoogleAuthProvider.getCredential(myAccount.getIdToken(), null);
@@ -117,6 +119,8 @@ public class MainActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
+                            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                            startActivity(intent);
                             //updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.

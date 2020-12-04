@@ -14,12 +14,12 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="194dp" />
+            android:layout_height="41dp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Search a city + country/province or location:"
+            android:text="Search a city + location:"
             android:textAlignment="center"
             android:textColor="#000000"
             android:textSize="18sp" />
@@ -33,8 +33,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:text="City, Country/Province or Location Name" />
+            android:hint="City, Country/Province or Location Name"
+            android:inputType="textPersonName" />
 
         <Button
             android:id="@+id/search"
@@ -63,6 +63,46 @@
 
         <TextView
             android:id="@+id/sl4"
+            android:layout_width="match_parent"
+            android:layout_height="33dp" />
+
+        <TextView
+            android:id="@+id/sl5"
+            android:layout_width="match_parent"
+            android:layout_height="33dp" />
+
+        <TextView
+            android:id="@+id/sl6"
+            android:layout_width="match_parent"
+            android:layout_height="33dp" />
+
+        <TextView
+            android:id="@+id/sl7"
+            android:layout_width="match_parent"
+            android:layout_height="33dp" />
+
+        <TextView
+            android:id="@+id/sl8"
+            android:layout_width="match_parent"
+            android:layout_height="33dp" />
+
+        <TextView
+            android:id="@+id/sl9"
+            android:layout_width="match_parent"
+            android:layout_height="33dp" />
+
+        <TextView
+            android:id="@+id/sl10"
+            android:layout_width="match_parent"
+            android:layout_height="33dp" />
+
+        <TextView
+            android:id="@+id/sl11"
+            android:layout_width="match_parent"
+            android:layout_height="33dp" />
+
+        <TextView
+            android:id="@+id/sl12"
             android:layout_width="match_parent"
             android:layout_height="33dp" />
 

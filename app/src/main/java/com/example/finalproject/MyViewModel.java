@@ -1,7 +1,13 @@
 package com.example.finalproject;
-import android.arch.lifecycle.view
-public class ViewModel extends ViewModel{
+
+import androidx.lifecycle.ViewModel;
+
+public class MyViewModel extends ViewModel {
     private UserModel userModel;
+
+    public MyViewModel() {
+        userModel = new UserModel();
+    }
 
     public UserModel getUserModel() {
         return userModel;

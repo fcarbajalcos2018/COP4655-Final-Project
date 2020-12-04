@@ -1,12 +1,16 @@
 package com.example.finalproject;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +27,10 @@ public class InfoFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    TextView locationName, locationAddress, locationArea;
+
+    boolean isSent = false;
 
     public InfoFragment() {
         // Required empty public constructor
@@ -59,6 +67,24 @@ public class InfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_info, container, false);
+        View view = inflater.inflate(R.layout.fragment_info, container, false);
+
+        locationName = (TextView) view.findViewById(R.id.locationName);
+        locationAddress = (TextView) view.findViewById(R.id.locationAddress);
+        locationArea = (TextView) view.findViewById(R.id.city);
+        return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        MyViewModel myViewModel = ViewModelProviders.of(getActivity()).get(MyViewModel.class);
+        final UserModel userModel = myViewModel.getUserModel();
+        isSent = userModel.getCondition();
+        if (isSent == true) {
+            locationName.setText(userModel.getLocationName());
+            locationAddress.setText(userModel.getLocationAddress() + " - " + userModel.getZip());
+            locationArea.setText(userModel.getCity() + ", " + userModel.getState() + " - " + userModel.getCountry());
+        }
     }
 }
