@@ -93,8 +93,10 @@ public class MainFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
+        // Initialize ViewModel class
         MyViewModel myViewModel = ViewModelProviders.of(getActivity()).get(MyViewModel.class);
 
+        // Initialize UserModel class
         myUserModel = myViewModel.getUserModel();
 
         searchIn = view.findViewById(R.id.input);
@@ -102,22 +104,21 @@ public class MainFragment extends Fragment {
 
         op1 = view.findViewById(R.id.sl1);
         op2 = view.findViewById(R.id.sl2);
-        //Toast.makeText(getActivity().getApplicationContext(), "eee", Toast.LENGTH_SHORT).show();
+        // Pressing the search button will start an API request
         searchOnClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getData();
             }
         });
-        //Toast.makeText(getActivity().getApplicationContext(), data1[0], Toast.LENGTH_SHORT).show();
 
         return view;
     }
 
     private void getData() {
+
         String in = searchIn.getText().toString();
         String[] splitIn = in.split(" ");
-        //Toast.makeText(getActivity().getApplicationContext(), in, Toast.LENGTH_SHORT).show();
         queue = Volley.newRequestQueue(getActivity().getApplicationContext());
         String url = "https://api.yelp.com/v3/businesses/search?location=" + splitIn[0] + "&term=" + splitIn[1];
         JsonObjectRequest getLocation = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -152,9 +153,10 @@ public class MainFragment extends Fragment {
                     JSONArray transaction1 = businessElement1.getJSONArray("transactions");
                     int transaction1Length = transaction1.length();
                     String[] transactionType1 = new String[transaction1Length];
-                    for (int i = 0; i < transaction1Length; i++)
-                    {
-                        transactionType1[i] = transaction1.getString(i);
+                    if (transaction1Length != 0) {
+                        for (int i = 0; i < transaction1Length; i++) {
+                            transactionType1[i] = transaction1.getString(i);
+                        }
                     }
                     //      Contacts
                     String phone1 = businessElement1.getString("display_phone");
@@ -181,16 +183,19 @@ public class MainFragment extends Fragment {
                     if (category2Length != 0) {
                         for (int i = 0; i < category2Length; i++) {
                             JSONObject categoryElement2 = category2.getJSONObject(i);
-                            title1[i] = categoryElement2.getString("title");
+                            title2[i] = categoryElement2.getString("title");
                         }
                     }
                     String rating2 = businessElement2.getString("rating");
                     JSONArray transaction2 = businessElement2.getJSONArray("transactions");
                     int transaction2Length = transaction2.length();
                     String[] transactionType2 = new String[transaction2Length];
-                    for (int i = 0; i < transaction2Length; i++)
+                    if (transaction2Length != 0)
                     {
-                        transactionType2[i] = transaction2.getString(i);
+                        for (int i = 0; i < transaction2Length; i++)
+                        {
+                            transactionType2[i] = transaction2.getString(i);
+                        }
                     }
                     //      Contacts
                     String phone2 = businessElement2.getString("display_phone");
@@ -201,8 +206,6 @@ public class MainFragment extends Fragment {
 
                     op1.setText(locationName1);
                     op2.setText(locationName2);
-                    //Toast.makeText(getActivity().getApplicationContext(), locationName1, Toast.LENGTH_SHORT).show();
-                    //Toast.makeText(getActivity().getApplicationContext(), address1, Toast.LENGTH_SHORT).show();
 
                     // Assignment of data for FIRST RESULT
                     int i1 = 0;
@@ -216,25 +219,17 @@ public class MainFragment extends Fragment {
                     data1[7] = "";
                     data1[8] = "";
                     data1[9] = "";
-                    for(int i = 0; i < 3; i++)
+                    for(int i = 0; i < category1Length; i++)
                     {
-                        if (i == category1Length || category1Length == 0)
-                        {
-                            break;
-                        }
                         data1[7 + i] = title1[i];
                     }
                     data1[10] = rating1;
                     data1[11] = "";
                     data1[12] = "";
                     data1[13] = "";
-                    for (int i = 0; i < 3; i++)
+                    for (int i = 0; i < transaction1Length; i++)
                     {
-                        if (i == transaction1Length || transaction1Length == 0)
-                        {
-                            break;
-                        }
-                        data1[11 + i] = title1[i];
+                        data1[11 + i] = transactionType1[i];
                     }
                     data1[14] = phone1;
                     data1[15] = latitude1;
@@ -252,32 +247,23 @@ public class MainFragment extends Fragment {
                     data2[7] = "";
                     data2[8] = "";
                     data2[9] = "";
-                    for(int i = 0; i < 3; i++)
+                    for(int i = 0; i < category2Length; i++)
                     {
-                        if (i == category2Length || category2Length == 0)
-                        {
-                            break;
-                        }
                         data2[7 + i] = title2[i];
                     }
                     data2[10] = rating2;
                     data2[11] = "";
                     data2[12] = "";
                     data2[13] = "";
-                    for (int i = 0; i < 3; i++)
+                    for (int i = 0; i < transaction2Length; i++)
                     {
-                        if (i == transaction2Length || transaction2Length == 0)
-                        {
-                            break;
-                        }
-                        data2[11 + i] = title2[i];
+                        data2[11 + i] = transactionType2[i];
                     }
                     data2[14] = phone2;
                     data2[15] = latitude2;
                     data2[16] = longitude2;
 
                     resultsPresent = true;
-                    //Toast.makeText(getActivity().getApplicationContext(), data1[0], Toast.LENGTH_SHORT).show();
                     getEvents();
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -340,37 +326,4 @@ public class MainFragment extends Fragment {
         myUserModel.setLongitude(myData[16]);
         myUserModel.setCondition(true);
     }
-
-    /*
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.search:
-                //Toast.makeText(getActivity().getApplicationContext(), "eee", Toast.LENGTH_SHORT).show();
-                getData();
-
-                if (resultsPresent == true)
-                {
-                    Toast.makeText(getActivity().getApplicationContext(), "true", Toast.LENGTH_SHORT).show();
-                    op1.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v1) {
-
-                            listener.onMainFragmentSent(data1);
-                            Toast.makeText(getActivity().getApplicationContext(), "yes", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    op2.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v2) {
-
-                            listener.onMainFragmentSent(data2);
-                        }
-                    });
-                }
-                break;
-        }
-
-
-    }*/
 }

@@ -19,7 +19,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Search a city + location:"
+            android:text="Search a city + term related to your search:"
             android:textAlignment="center"
             android:textColor="#000000"
             android:textSize="18sp" />

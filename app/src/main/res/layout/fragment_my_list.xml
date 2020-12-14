@@ -6,9 +6,72 @@
     tools:context=".MyListFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical">
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="39dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Saved Locations"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="11dp" />
+
+        <TextView
+            android:id="@+id/selected"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Currently Selected: "
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="12sp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="11dp" />
+
+        <Button
+            android:id="@+id/add"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Save" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="11dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="26dp"
+                android:layout_height="51dp"
+                android:layout_weight="1" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/list"
+                android:layout_width="362dp"
+                android:layout_height="465dp">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <Space
+                android:layout_width="26dp"
+                android:layout_height="72dp" />
+        </LinearLayout>
+
+    </LinearLayout>
 
 </FrameLayout>

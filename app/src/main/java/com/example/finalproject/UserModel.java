@@ -13,6 +13,9 @@ public class UserModel {
     private String[] transaction = new String[3];
     private String phone;
     private String latitude;
+    private String longitude;
+    private boolean condition;
+
 
     public String getZip() {
         return zip;
@@ -86,9 +89,6 @@ public class UserModel {
         this.phone = phone;
     }
 
-    private String longitude;
-
-
     public String[] getCategory() {
         return category;
     }
@@ -104,8 +104,6 @@ public class UserModel {
     public void setRating(String rating) {
         this.rating = rating;
     }
-
-    private boolean condition;
 
     public String getLocationName() {
         return locationName;

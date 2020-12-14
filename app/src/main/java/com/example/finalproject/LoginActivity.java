@@ -1,7 +1,10 @@
 package com.example.finalproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,10 +15,16 @@ import androidx.fragment.app.Fragment;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 public class LoginActivity extends AppCompatActivity {
 
+    DatabaseReference databaseReference, fvrt, fvrtList;
+    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    Button logOut;
     TextView welcome;
     private BottomNavigationView bottomNavigationView;
     private MainFragment mainFragment;
@@ -33,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
 
         welcome = findViewById(R.id.welcome);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_nav);
-
+        logOut = (Button) findViewById(R.id.logout);
         mainFragment = new MainFragment();
         infoFragment = new InfoFragment();
         mapsFragment = new MapsFragment();
@@ -49,6 +58,17 @@ public class LoginActivity extends AppCompatActivity {
         {
             welcome.setText("Welcome , " + signInAccount.getDisplayName() + " (" + signInAccount.getEmail() + ")!");
         }
+
+        logOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // When pressing the logout button, the application will redirect the user back to the pre-login screen
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
         bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
             @Override
             public void onNavigationItemReselected(@NonNull MenuItem item) {
@@ -57,19 +77,15 @@ public class LoginActivity extends AppCompatActivity {
                 switch (item.getItemId())
                 {
                     case R.id.app_bar_search:
-                        bottomNavigationView.setItemBackgroundResource(R.color.colorPrimary);
                         select = mainFragment;
                         break;
                     case R.id.app_bar_info:
-                        bottomNavigationView.setItemBackgroundResource(R.color.colorAccent);
                         select = infoFragment;
                         break;
                     case R.id.app_bar_map:
-                        bottomNavigationView.setItemBackgroundResource(R.color.colorPrimaryDark);
                         select = mapsFragment;
                         break;
                     case R.id.app_bar_mylist:
-                        bottomNavigationView.setItemBackgroundResource(R.color.design_default_color_primary_variant);
                         select = myListFragment;
                         break;
                     default:

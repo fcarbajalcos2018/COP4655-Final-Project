@@ -28,7 +28,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button microsoft, google, yahoo;
+    Button google;
 
     private GoogleSignInClient mGoogleSignInClient;
     private final static int RC_SIGN_IN = 123;
@@ -38,10 +38,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        // When the activity starts, the Firebase will automatically authenticate the user if already logged in
         FirebaseUser user = mAuth.getCurrentUser();
 
         if (user != null)
         {
+            // If there is a user already logged in, then an intent will cause the application to display the main application
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
         }
@@ -52,29 +54,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        microsoft = (Button)findViewById(R.id.microsoftlogin);
+        // Establishes Firebase instance
         google = (Button)findViewById(R.id.googlelogin);
-        yahoo = (Button)findViewById(R.id.yahoologin);
         mAuth = FirebaseAuth.getInstance();
 
+        // Calls a function to request sign in data
         createRequest();
 
-        microsoft.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
         google.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Once the user presses the log in button, the procedure to authenticate the user takes place
                 GoogleLogin();
-            }
-        });
-        yahoo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
             }
         });
     }

@@ -3,6 +3,7 @@ package com.example.finalproject;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -31,8 +32,17 @@ public class MapsFragment extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            LatLng sydney = new LatLng(-34, 151);
-            googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+            MyViewModel myViewModel = ViewModelProviders.of(getActivity()).get(MyViewModel.class);
+            final UserModel userModel = myViewModel.getUserModel();
+            double longitude = -34, latitude = 151;
+            if (userModel.getCondition() == true)
+            {
+                // Convert string to double for location use
+                longitude = Double.parseDouble(userModel.getLongitude());
+                latitude = Double.parseDouble(userModel.getLatitude());
+            }
+            LatLng sydney = new LatLng(latitude, longitude);
+            googleMap.addMarker(new MarkerOptions().position(sydney).title(userModel.getLocationName()));
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
         }
     };
