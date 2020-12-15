@@ -55,6 +55,7 @@ public class MainFragment extends Fragment {
     String [] data1 = new String[17];
     String [] data2 = new String[17];
 
+    // Yelp API
     String YELP_API = "Tg9MF-UGI9sChISM7-WDxCRPjStEnEY6Ijjqs-UWvzNfOB6T2FFeQNLOkLdUxPx00PKBV6rlZs97JyjU97XAsVYp2am4KGpONQJpVqIu8p36Iub7T1N3kdme2hPEX3Yx";
     public MainFragment() {
         // Required empty public constructor
@@ -121,6 +122,7 @@ public class MainFragment extends Fragment {
         String[] splitIn = in.split(" ");
         queue = Volley.newRequestQueue(getActivity().getApplicationContext());
         String url = "https://api.yelp.com/v3/businesses/search?location=" + splitIn[0] + "&term=" + splitIn[1];
+        // Start volley API request
         JsonObjectRequest getLocation = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -264,6 +266,7 @@ public class MainFragment extends Fragment {
                     data2[16] = longitude2;
 
                     resultsPresent = true;
+                    // Calls function for the onclick listeners
                     getEvents();
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -289,11 +292,12 @@ public class MainFragment extends Fragment {
     private void getEvents() {
         if (resultsPresent == true)
         {
+            // Click on one of the search results
             Toast.makeText(getActivity().getApplicationContext(), data1[0], Toast.LENGTH_SHORT).show();
             op1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v1) {
-                    sendData(data1);
+                    sendData(data1); // Sends data to the ViewModel
                     Toast.makeText(getActivity().getApplicationContext(), "yes", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -309,6 +313,7 @@ public class MainFragment extends Fragment {
 
     private void sendData(String[] myData)
     {
+        // Each API object is sent to the ViewModel and can be accessed on any fragment that declares it
         myUserModel.setLocationName(myData[0]);
         myUserModel.setLocationAddress(myData[1]);
         myUserModel.setCity(myData[2]);

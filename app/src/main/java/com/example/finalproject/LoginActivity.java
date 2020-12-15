@@ -43,6 +43,8 @@ public class LoginActivity extends AppCompatActivity {
         welcome = findViewById(R.id.welcome);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_nav);
         logOut = (Button) findViewById(R.id.logout);
+
+        // Initializes the fragments
         mainFragment = new MainFragment();
         infoFragment = new InfoFragment();
         mapsFragment = new MapsFragment();
@@ -53,9 +55,11 @@ public class LoginActivity extends AppCompatActivity {
         //Default
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment, mainFragment).commit();
 
+        // Ensures that the user is signed in
         GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(this );
         if (signInAccount != null)
         {
+            // Welcome the user with name and email
             welcome.setText("Welcome , " + signInAccount.getDisplayName() + " (" + signInAccount.getEmail() + ")!");
         }
 
@@ -74,6 +78,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onNavigationItemReselected(@NonNull MenuItem item) {
                 Fragment select = null;
 
+                // Navigation bar, a switch statement determines the page based on the selection by the user
                 switch (item.getItemId())
                 {
                     case R.id.app_bar_search:
@@ -91,6 +96,7 @@ public class LoginActivity extends AppCompatActivity {
                     default:
 
                 }
+                // Starts the transaction to replace the fragment as a result of selecting a different navigation item
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment, select).commit();
             }
         });

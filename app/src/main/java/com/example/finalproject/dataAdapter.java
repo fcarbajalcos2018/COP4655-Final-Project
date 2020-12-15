@@ -33,6 +33,7 @@ public class dataAdapter extends RecyclerView.Adapter<dataAdapter.mViewHolder> {
     UserModel myUserModel;
     int pos = 0;
 
+    // Takes the parameters as called on the List fragment and are assigned to the local variables
     public dataAdapter(Context c, ArrayList<data> l, dataSend ds) {
         context = c;
         list = l;
@@ -50,6 +51,7 @@ public class dataAdapter extends RecyclerView.Adapter<dataAdapter.mViewHolder> {
     public void onBindViewHolder(@NonNull mViewHolder holder, int position) {
         final data mydata = list.get(position);
 
+        // Prints the name and address of the business for each list item
         holder.locationName.setText(mydata.getLocationName());
         holder.locationAddress.setText(mydata.getLocationAddress());
 
@@ -61,6 +63,7 @@ public class dataAdapter extends RecyclerView.Adapter<dataAdapter.mViewHolder> {
     }
 
     class mViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        // TextView for the list items
         private TextView locationName;
         private TextView locationAddress;
         public LinearLayout linearLayout;
@@ -68,8 +71,10 @@ public class dataAdapter extends RecyclerView.Adapter<dataAdapter.mViewHolder> {
         Context ctxt;
         public mViewHolder(@NonNull View itemView, dataSend mDataSend1) {
             super(itemView);
+            // Make the list item a clickable element
             itemView.setOnClickListener(this);
             mDataSend = mDataSend1;
+            // Inflate the list items
             locationName = itemView.findViewById(R.id.locName);
             locationAddress = itemView.findViewById(R.id.locAddress);
             linearLayout = itemView.findViewById(R.id.linearLayout);
@@ -89,6 +94,7 @@ public class dataAdapter extends RecyclerView.Adapter<dataAdapter.mViewHolder> {
         }
     }
 
+    // Interface to send data to the fragment and then send to the user class
     public interface dataSend {
         void OnDataClick(data myData);
     }

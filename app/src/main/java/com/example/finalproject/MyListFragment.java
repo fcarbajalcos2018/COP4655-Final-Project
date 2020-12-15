@@ -48,7 +48,6 @@ public class MyListFragment extends Fragment{
     RecyclerView recyclerView;
 
     private ArrayList<data> arrayList;
-    //private ArrayAdapter<String> arrayAdapter;
     DatabaseReference databaseReference;
     dataAdapter dataAdapter;
     UserModel userModel;
@@ -95,8 +94,6 @@ public class MyListFragment extends Fragment{
         add = (Button)view.findViewById(R.id.add);
         recyclerView = (RecyclerView)view.findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        //dataAdapter = new dataAdapter(list);
-        //recyclerView.setAdapter(dataAdapter);
 
         return view;
     }
@@ -108,6 +105,7 @@ public class MyListFragment extends Fragment{
         userModel = myViewModel.getUserModel();
         boolean isSent = userModel.getCondition();
 
+        // If data was sent to the ViewModel then perform the task to access the data and send it to another model class for the RecyclerView
         if (isSent == true) {
             dataSelect.setText("Currently Selected: " + userModel.getLocationName());
 
@@ -121,6 +119,7 @@ public class MyListFragment extends Fragment{
                     tran = userModel.getTransaction();
                     data myData = new data();
 
+                    // Send user/view model class parameters to the data class for use with the database
                     myData.setLocationName(userModel.getLocationName());
                     myData.setLocationAddress(userModel.getLocationAddress());
                     myData.setCity(userModel.getCity());
@@ -154,9 +153,11 @@ public class MyListFragment extends Fragment{
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren())
                 {
+                    // Gets the data from the Database
                     data data1 = dataSnapshot.getValue(data.class);
                     arrayList.add(data1);
                 }
+                // Sets the adapter for the RecyclerView
                 dataAdapter = new dataAdapter(getContext(), arrayList, dataSendInterface);
                 recyclerView.setAdapter(dataAdapter);
             }

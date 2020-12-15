@@ -41,6 +41,7 @@ public class InfoFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    // API from Yelp
     String YELP_API = "Tg9MF-UGI9sChISM7-WDxCRPjStEnEY6Ijjqs-UWvzNfOB6T2FFeQNLOkLdUxPx00PKBV6rlZs97JyjU97XAsVYp2am4KGpONQJpVqIu8p36Iub7T1N3kdme2hPEX3Yx";
 
     TextView locationName, locationAddress, locationArea;
@@ -118,6 +119,7 @@ public class InfoFragment extends Fragment {
         // Determines whether the data in the user model is present
         isSent = userModel.getCondition();
         if (isSent == true) {
+            // Retrieves data from the ViewModel
             String[] cat = {"", "",""};
             if (userModel.getCategory() != null)
             {
@@ -128,6 +130,7 @@ public class InfoFragment extends Fragment {
             {
                 tran = userModel.getTransaction();
             }
+            // Set the text views to the data from the API
             locationName.setText(userModel.getLocationName());
             locationAddress.setText(userModel.getLocationAddress() + " - " + userModel.getZip());
             locationArea.setText(userModel.getCity() + ", " + userModel.getState() + " - " + userModel.getCountry());
@@ -168,6 +171,8 @@ public class InfoFragment extends Fragment {
                             openArray2[i] = openElement.getString("end");
                         }
 
+                        // Assign the operation hours to string variables
+
                         String MondayStart = openArray1[0];
                         String MondayEnd = openArray2[0];
 
@@ -193,6 +198,7 @@ public class InfoFragment extends Fragment {
 
                         openClose.setText(operation);
 
+                        // Set output based on the API values
                         monday.setText(getHours(MondayStart) + ":" + getMins(MondayStart) + " - " + getHours(MondayEnd) + ":" + getMins(MondayEnd));
                         tuesday.setText(getHours(TuesdayStart) + ":" + getMins(TuesdayStart) + " - " + getHours(TuesdayEnd) + ":" + getMins(TuesdayEnd));
                         wednesday.setText(getHours(WednesdayStart) + ":" + getMins(WednesdayStart) + " - " + getHours(WednesdayEnd) + ":" + getMins(WednesdayEnd));
@@ -208,16 +214,20 @@ public class InfoFragment extends Fragment {
 
                 private String getHours(String day) {
                     if (day != "") {
+                        // Converts string to int
                         int hours = Integer.parseInt(day);
                         // Divides by 100 to get the first two digits of the non-formatted time
                         int hoursRes = hours / 100;
+                        // Converts back to string and return
                         return String.valueOf(hoursRes);
                     }
+                    // Return no string value if no argument present
                     return "";
                 }
 
                 private String getMins(String day) {
                     if (day != "") {
+                        // Converts string to int
                         int mins = Integer.parseInt(day);
                         // Modulates by 100 to get the last two digits of the non-formatted time
                         int minsRes = mins % 100;
@@ -225,10 +235,13 @@ public class InfoFragment extends Fragment {
                         String result = String.valueOf(minsRes);
                         if (minsRes < 10)
                         {
+                            // If minutes in time is less than 10, then return a string starting with '0' to display as 0x (Example: 00 instead of 0)
                             return zero + result;
                         }
+                        // Return as it is if greater than 10 otherwise
                         return result;
                     }
+                    // Return no string value if no argument present
                     return "";
                 }
             }, new Response.ErrorListener() {
