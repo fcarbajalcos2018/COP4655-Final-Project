@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
     private void GoogleLogin() {
         Intent login = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(login, RC_SIGN_IN);
+        System.out.println("eee");
     }
 
     @Override
